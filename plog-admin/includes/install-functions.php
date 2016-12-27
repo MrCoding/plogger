@@ -81,7 +81,8 @@ function get_default_charset() {
 function gd_missing() {
 	require_once(PLOGGER_DIR.'/plog-includes/lib/phpthumb/phpthumb.functions.php');
 	// This is copied over from phpthumb
-	return phpthumb_functions::gd_version() < 1;
+	$phpthumb_functions = new phpthumb_functions();
+	return $phpthumb_functions->gd_version() < 1;
 }
 
 function check_requirements() {
@@ -722,7 +723,7 @@ function upgrade_database() {
 	// set navigation thumbnails to square
 	$sql = "UPDATE `".PLOGGER_TABLE_PREFIX."thumbnail_config` SET `resize_option` = '3' WHERE `id` = '".THUMB_NAV."'";
 	mysql_query($sql);
-	
+
 
 /** plogger_config **/
 	$config_drop_list = array(
@@ -900,7 +901,7 @@ function upgrade_image_list() {
 	$total = 0;
 
 	// Strip 'images/' prefix from pictures table
-	$sql = "UPDATE ".PLOGGER_TABLE_PREFIX."pictures SET path = SUBSTRING(path,8) WHERE SUBSTRING(path,1,7) = 'images/'"; 
+	$sql = "UPDATE ".PLOGGER_TABLE_PREFIX."pictures SET path = SUBSTRING(path,8) WHERE SUBSTRING(path,1,7) = 'images/'";
 	mysql_query($sql);
 
 	// Update 'path' for collections table
@@ -931,7 +932,7 @@ function upgrade_image_list() {
 
 	// Loop through each image from the pictures table, get its parent album name and parent collection
 	$sql = "SELECT p.path AS path, p.id AS pid,c.path AS collection_path, a.path AS album_path
-			FROM ".PLOGGER_TABLE_PREFIX."albums a, ".PLOGGER_TABLE_PREFIX."pictures p, ".PLOGGER_TABLE_PREFIX."collections c 
+			FROM ".PLOGGER_TABLE_PREFIX."albums a, ".PLOGGER_TABLE_PREFIX."pictures p, ".PLOGGER_TABLE_PREFIX."collections c
 			WHERE p.parent_album = a.id AND p.parent_collection = c.id";
 	$result = mysql_query($sql);
 
@@ -991,7 +992,7 @@ function upgrade_images($num, $list) {
 				$errors[] = plog_tr('Could not create directory').': '.PLOGGER_DIR.'plog-content/images/'.$image['new_path'];
 			} else {
 				if (!move_this(PLOGGER_DIR.$image['old_path'], PLOGGER_DIR.'plog-content/images/'.$image['new_path'])) {
-					$errors[] = plog_tr('Could not move file').': '.PLOGGER_DIR.$image['old_path']; 
+					$errors[] = plog_tr('Could not move file').': '.PLOGGER_DIR.$image['old_path'];
 				} else {
 					@chmod(PLOGGER_DIR.$new_path, PLOGGER_CHMOD_DIR);
 					$output[] = sprintf(plog_tr('Moved file %s -> %s'), '<strong>'.$image['old_path'].'</strong>', '<strong>'.'plog-content/images/'.$image['new_path'].'</strong>');
@@ -1009,7 +1010,7 @@ function upgrade_images($num, $list) {
 				$errors[] = plog_tr('Could not create directory').': '.PLOGGER_DIR.$image['new_path'];
 			} else {
 				if (!move_this(PLOGGER_DIR.$image['old_path'], PLOGGER_DIR.$image['new_path'])) {
-					$errors[] = plog_tr('Could not move file').': '.PLOGGER_DIR.$image['old_path']; 
+					$errors[] = plog_tr('Could not move file').': '.PLOGGER_DIR.$image['old_path'];
 				} else {
 					@chmod(PLOGGER_DIR.$new_path, PLOGGER_CHMOD_DIR);
 					$output[] = sprintf(plog_tr('Moved file %s -> %s'), '<strong>'.$image['old_path'].'</strong>', '<strong>'.$image['new_path'].'</strong>');
