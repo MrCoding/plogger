@@ -60,7 +60,7 @@ function get_files($directory, $get_all_files = false, $get_folders = false, $re
 		sort($tmp);
 		if ($get_folders) {
 			$return = array();
-			// Reverse the order of folders so subfolders come first 
+			// Reverse the order of folders so subfolders come first
 			krsort($tmp_folders);
 			$return['files'] = $tmp;
 			$return['folders'] = $tmp_folders;
@@ -735,7 +735,7 @@ function delete_collection($del_id) {
 	run_query($query);
 
 	// Finally try to delete the directory itself. It will succeed, if there are no files left inside it ..
-	// If there are then .. how did they get there? Probably not through Plogger and in this case do we 
+	// If there are then .. how did they get there? Probably not through Plogger and in this case do we
 	// really want to delete those?
 	$source_collection_name = SmartStripSlashes($collection['collection_path']);
 
@@ -1076,7 +1076,7 @@ function delete_album($del_id) {
 	run_query($query);
 
 	// Finally try to delete the directory itself. It will succeed, if there are no files left inside it ..
-	// If there are then .. how did they get there? Probably not through Plogger and in this case do we 
+	// If there are then .. how did they get there? Probably not through Plogger and in this case do we
 	// really want to delete those?
 	$source_album_name = SmartStripSlashes($album['album_path']);
 	$source_collection_name = SmartStripSlashes($album['collection_path']);
@@ -1240,7 +1240,7 @@ function connect_ftp() {
 	$ftp_pass = $config['ftp_pass'];
 
 	// Create connection
-	$PLOGGER_FTP = ftp_connect($ftp_server); 
+	$PLOGGER_FTP = ftp_connect($ftp_server);
 	// Login to ftp server
 	$ftp_result = ftp_login($PLOGGER_FTP, $ftp_user, $ftp_pass);
 
@@ -1397,7 +1397,7 @@ function configure_mod_rewrite($enable = false) {
 		}
 		// Read the file
 		global $config;
-		$fpath = $config['basedir'].'.htaccess'; 
+		$fpath = $config['basedir'].'.htaccess';
 		$htaccess_lines = @file($fpath);
 
 		$output = '';
@@ -1983,7 +1983,7 @@ function plogger_generate_server_info() {
 				$gd_info = $gd_info1['GD Version'];
 				if($gd_info == "") {
 					$gd_info = plog_tr('Not installed');
-				} else if ($gd_info1['JPG Support']) {
+				} else if ($gd_info1['JPEG Support']) {
 					$gd_info .= plog_tr(' with JPEG support');
 				}
 			}

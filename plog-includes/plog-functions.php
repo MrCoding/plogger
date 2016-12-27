@@ -513,7 +513,7 @@ function connect_db() {
 	global $config, $PLOGGER_DBH;
 
 	if (!isset($PLOGGER_DBH)) {
-		$PLOGGER_DBH = mysql_connect(PLOGGER_DB_HOST, PLOGGER_DB_USER, PLOGGER_DB_PW) or die(plog_tr('Plogger cannot connect to the database because: ').mysql_error());
+		$PLOGGER_DBH = @mysql_connect(PLOGGER_DB_HOST, PLOGGER_DB_USER, PLOGGER_DB_PW) or die(plog_tr('Plogger cannot connect to the database because: ').mysql_error());
 
 		mysql_select_db(PLOGGER_DB_NAME);
 
@@ -651,7 +651,7 @@ function generate_thumb($path, $prefix, $type = THUMB_SMALL) {
 	if ($orig_width <= $thumb_config['size'] && $orig_height <= $thumb_config['size']) {
 		// if fullsize image access is disabled, copy the file to the thumbs folder
 		if ($config['allow_fullpic'] == 0) {
-			copy($source_file_name, $thumbpath); 
+			copy($source_file_name, $thumbpath);
 			return $thumburl;
 		// otherwise return the original file path
 		} else {
